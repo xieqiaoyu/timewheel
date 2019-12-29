@@ -135,15 +135,18 @@ func (dq *DelayBucketQueue) Poll(ctx context.Context) {
 					return
 				}
 			} else if delta > 0 {
+				ticker := time.NewTicker(delta)
 				select {
 				case <-dq.wakeupQ:
+					ticker.Stop()
 					continue
-				case <-time.After(delta):
+				case <-ticker.C:
 					if atomic.SwapInt32(&dq.sleeping, 0) == 0 {
 						<-dq.wakeupQ
 					}
 					continue
 				case <-ctx.Done():
+					ticker.Stop()
 					if atomic.SwapInt32(&dq.sleeping, 0) == 0 {
 						<-dq.wakeupQ
 					}

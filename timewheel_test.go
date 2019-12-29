@@ -65,9 +65,9 @@ func TestPerformar(t *testing.T) {
 	time.Sleep(12 * time.Second)
 }
 
-func TestStorer(t *testing.T) {
+func TestPreloader(t *testing.T) {
 	subtw := NewPerformar(100*time.Millisecond, 50)
-	tw := NewStorer(subtw, 6)
+	tw := NewPreloader(subtw, 6)
 	tw.Start()
 	defer tw.Stop()
 	fmt.Printf("start on %s\n", time.Now())
