@@ -42,9 +42,7 @@ func (tw *Preloader) Add(t Task) error {
 	}
 	currentTime := time.Now()
 	delta := t.ExpireAt().Sub(currentTime)
-	if delta < 0 {
-		return errors.New("Expired task add")
-	} else if delta < (tw.tick << 1) {
+	if delta < (tw.tick << 1) {
 		return tw.subWheel.Add(t)
 	} else if delta < tw.interval {
 		bIndex := delta / tw.tick

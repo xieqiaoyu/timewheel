@@ -39,7 +39,9 @@ func (tw *Performar) Add(t Task) error {
 	currentTime := time.Now()
 	delta := t.ExpireAt().Sub(currentTime)
 	if delta < tw.tick {
-		return errors.New("Expired task add")
+		// excute now
+		go t.Excute()
+		return nil
 	} else if delta < tw.interval {
 		bIndex := delta / tw.tick
 		b := tw.buckets[bIndex]
