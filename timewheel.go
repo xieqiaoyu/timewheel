@@ -19,5 +19,5 @@ type TaskID interface {
 type Task interface {
 	Excute() error
 	ExpireAt() time.Time
-	//	GetID() TaskID
+	GetID() TaskID
 }

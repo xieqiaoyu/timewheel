@@ -95,6 +95,7 @@ func (tw *Performar) Start() {
 func (tw *Performar) Stop() {
 	tw.mu <- true
 	if atomic.SwapInt32(&tw.ticking, 0) == 0 {
+		<-tw.mu
 		return
 	}
 	if tw.cancel != nil {
